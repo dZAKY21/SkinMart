@@ -1,0 +1,148 @@
+import '../models/skincare.dart';
+
+var skincareList = [
+  Skincare(
+    name: 'Heartleaf 77% Soothing Toner',
+    brand: 'Anua',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Toner best-seller dari Anua dengan 77% ekstrak daun Heartleaf (Houttuynia Cordata) yang menenangkan kulit sensitif, mengontrol minyak, dan menjaga kelembapan kulit. Cocok untuk kulit sensitif dan acne-prone.',
+    releaseYear: '2021',
+    category: 'Toner',
+    imageAsset: 'images/anua_toner.jpg',
+    imageUrls: [
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_77_toner_1.jpg',
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_77_toner_2.jpg',
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_77_toner_3.jpg',
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_77_toner_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+  Skincare(
+    name: 'Niacinamide 10% + TXA Serum',
+    brand: 'Anua',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Serum pencerah dengan 10% Niacinamide dan Tranexamic Acid yang membantu menyamarkan noda hitam dan meratakan warna kulit. Diperkaya ekstrak teh hijau untuk menenangkan dan memperkuat skin barrier.',
+    releaseYear: '2022',
+    category: 'Serum',
+    imageAsset: 'images/anua_Niacinamide.jpg',
+    imageUrls: [
+      'https://anuaofficial.com/cdn/shop/files/niacinamide_serum_1.jpg',
+      'https://anuaofficial.com/cdn/shop/files/niacinamide_serum_2.jpg',
+      'https://anuaofficial.com/cdn/shop/files/niacinamide_serum_3.jpg',
+      'https://anuaofficial.com/cdn/shop/files/niacinamide_serum_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+  Skincare(
+    name: 'Madagascar Centella Ampoule',
+    brand: 'Skin1004',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Ampoule murni dengan 100% ekstrak Centella Asiatica dari Madagaskar. Membantu menenangkan kulit, memperbaiki lapisan pelindung kulit, dan mengurangi kemerahan akibat iritasi. Aman untuk semua jenis kulit.',
+    releaseYear: '2018',
+    category: 'Ampoule',
+    imageAsset: 'images/skin1004_ampoule.jpg',
+    imageUrls: [
+      'https://cdn.skin1004korea.com/product/centella_ampoule_1.jpg',
+      'https://cdn.skin1004korea.com/product/centella_ampoule_2.jpg',
+      'https://cdn.skin1004korea.com/product/centella_ampoule_3.jpg',
+      'https://cdn.skin1004korea.com/product/centella_ampoule_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+  Skincare(
+    name: 'Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++',
+    brand: 'Skin1004',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Sunscreen bertekstur serum dengan kombinasi Hyaluronic Acid dan Centella Asiatica yang memberikan perlindungan maksimal terhadap sinar UVA/UVB tanpa whitecast. Cocok untuk semua jenis kulit.',
+    releaseYear: '2021',
+    category: 'Sunscreen',
+    imageAsset: 'images/skin1004_sunscreen.jpg',
+    imageUrls: [
+      'https://cdn.skin1004korea.com/product/hyalucica_sunserum_1.jpg',
+      'https://cdn.skin1004korea.com/product/hyalucica_sunserum_2.jpg',
+      'https://cdn.skin1004korea.com/product/hyalucica_sunserum_3.jpg',
+      'https://cdn.skin1004korea.com/product/hyalucica_sunserum_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+  Skincare(
+    name: 'Advanced Snail 96 Mucin Power Essence',
+    brand: 'COSRX',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Essence legendaris COSRX yang mengandung 96% filtrat lendir siput untuk memperbaiki tekstur kulit, meningkatkan hidrasi, dan mempercepat regenerasi kulit. Cocok untuk kulit kering maupun sensitif.',
+    releaseYear: '2016',
+    category: 'Essence',
+    imageAsset: 'images/cosrx_snail_essence.jpg',
+    imageUrls: [
+      'https://cdn.cosrx.com/product/snail_essence_1.jpg',
+      'https://cdn.cosrx.com/product/snail_essence_2.jpg',
+      'https://cdn.cosrx.com/product/snail_essence_3.jpg',
+      'https://cdn.cosrx.com/product/snail_essence_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+  Skincare(
+    name: 'Low pH Good Morning Gel Cleanser',
+    brand: 'COSRX',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Pembersih wajah dengan pH rendah yang membantu menjaga keseimbangan kulit dan membersihkan minyak berlebih tanpa membuat kulit kering. Mengandung tea tree oil dan BHA alami dari willow bark.',
+    releaseYear: '2015',
+    category: 'Cleanser',
+    imageAsset: 'images/cosrx_cleanser.jpg',
+    imageUrls: [
+      'https://cdn.cosrx.com/product/goodmorning_cleanser_1.jpg',
+      'https://cdn.cosrx.com/product/goodmorning_cleanser_2.jpg',
+      'https://cdn.cosrx.com/product/goodmorning_cleanser_3.jpg',
+      'https://cdn.cosrx.com/product/goodmorning_cleanser_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+  Skincare(
+    name: 'Heartleaf Pore Control Cleansing Oil',
+    brand: 'Anua',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Cleansing oil dengan kandungan Heartleaf yang membersihkan makeup dan kotoran tanpa menyumbat pori. Teksturnya ringan, mudah dibilas, dan cocok untuk kulit sensitif.',
+    releaseYear: '2023',
+    category: 'Cleansing Oil',
+    imageAsset: 'images/anua_cleansing_oil.jpg',
+    imageUrls: [
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_1.jpg',
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_2.jpg',
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_3.jpg',
+      'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+  Skincare(
+    name: 'Tone Brightening Capsule Ampoule',
+    brand: 'Skin1004',
+    price: 'Rp111.000',
+    origin: 'Korea Selatan',
+    description:
+        'Ampoule dengan kandungan Niacinamide, Tranexamic Acid, dan Hyaluronic Acid yang mencerahkan kulit kusam serta menjaga hidrasi kulit sepanjang hari.',
+    releaseYear: '2020',
+    category: 'Brightening Ampoule',
+    imageAsset: 'images/skin1004_brightening.jpg',
+    imageUrls: [
+      'https://cdn.skin1004korea.com/product/tone_brightening_1.jpg',
+      'https://cdn.skin1004korea.com/product/tone_brightening_2.jpg',
+      'https://cdn.skin1004korea.com/product/tone_brightening_3.jpg',
+      'https://cdn.skin1004korea.com/product/tone_brightening_4.jpg',
+    ],
+    isFavorite: false,
+  ),
+];
