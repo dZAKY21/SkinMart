@@ -15,19 +15,76 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String phoneNumber = '0899999999';
   String email = 'muham09@gmail.com';
 
-  // Data favorit (dummy)
-  final List<Map<String, dynamic>> favorites = [
-    {'icon': Icons.favorite, 'title': 'Tempat Favorit'},
-    {'icon': Icons.star, 'title': 'Produk Favorit'},
-    {'icon': Icons.history, 'title': 'Riwayat Aktivitas'},
-  ];
+
 
   void signOut() {
     setState(() {
       isSignedIn = false;
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Berhasil logout!')),
+    );
     Navigator.pushReplacementNamed(context, '/signin');
   }
+
+  // 🔹 Edit Profil (popup dialog)
+  void _editProfile() {
+    TextEditingController nameCtrl = TextEditingController(text: fullName);
+    TextEditingController phoneCtrl = TextEditingController(text: phoneNumber);
+    TextEditingController emailCtrl = TextEditingController(text: email);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Profil'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameCtrl,
+                decoration: const InputDecoration(labelText: 'Nama Lengkap'),
+              ),
+              TextField(
+                controller: phoneCtrl,
+                decoration: const InputDecoration(labelText: 'No. Telepon'),
+              ),
+              TextField(
+                controller: emailCtrl,
+                decoration: const InputDecoration(labelText: 'Email'),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Batal'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                fullName = nameCtrl.text;
+                phoneNumber = phoneCtrl.text;
+                email = emailCtrl.text;
+              });
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Profil berhasil diperbarui!')),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF1E5BFF),
+            ),
+            child: const Text('Simpan'),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 🔹 Background gradient
+          // Background gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -47,13 +104,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
 
-          // 🔹 Konten utama
+          // Konten utama
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 children: [
-                  // 🔹 Header
+                  // Header
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Row(
@@ -75,16 +132,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 48), // agar teks tetap center
+                        const SizedBox(width: 48),
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 40),
 
-                  // 🔹 Card Profil
+                  // Card Profil
                   Center(
-                    child: Container(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 400),
                       width: cardWidth.clamp(320.0, 430.0),
                       padding: const EdgeInsets.fromLTRB(20, 28, 20, 26),
                       decoration: BoxDecoration(
@@ -101,19 +158,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Avatar
-                          CircleAvatar(
-                            radius: 48,
-                            backgroundColor: const Color(0xFF1E5BFF).withOpacity(0.2),
-                            child: const Icon(
-                              Icons.account_circle,
-                              size: 90,
-                              color: Color(0xFF1E5BFF),
+                          GestureDetector(
+                            onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Ganti foto profil belum diimplementasi.')),
+                            ),
+                            child: CircleAvatar(
+                              radius: 48,
+                              backgroundColor: const Color(0xFF1E5BFF).withOpacity(0.2),
+                              child: const Icon(
+                                Icons.account_circle,
+                                size: 90,
+                                color: Color(0xFF1E5BFF),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 18),
 
-                          // Nama lengkap
                           Text(
                             fullName,
                             style: const TextStyle(
@@ -122,18 +182,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            email,
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-
+                          Text(email, style: const TextStyle(color: Colors.grey)),
                           const SizedBox(height: 18),
 
                           // Tombol Edit Profil
                           SizedBox(
                             width: double.infinity,
                             child: OutlinedButton.icon(
-                              onPressed: () {},
+                              onPressed: _editProfile,
                               icon: const Icon(Icons.edit, color: Color(0xFF1E5BFF)),
                               label: const Text(
                                 'Edit Profil',
@@ -150,10 +206,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
-
                           const SizedBox(height: 26),
 
-                          // 🔹 Informasi Pribadi
+                          // Informasi Pribadi
                           const Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
@@ -166,72 +221,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           const SizedBox(height: 16),
-
-                          _infoField(
-                              icon: Icons.person,
-                              label: 'Nama',
-                              value: fullName),
+                          _infoField(icon: Icons.person, label: 'Nama', value: fullName),
                           const SizedBox(height: 10),
-                          _infoField(
-                              icon: Icons.phone,
-                              label: 'No. Telepon',
-                              value: phoneNumber),
+                          _infoField(icon: Icons.phone, label: 'No. Telepon', value: phoneNumber),
                           const SizedBox(height: 10),
-                          _infoField(
-                              icon: Icons.email,
-                              label: 'Email',
-                              value: email),
+                          _infoField(icon: Icons.email, label: 'Email', value: email),
 
                           const SizedBox(height: 30),
 
-                          // 🔹 Bagian Favorit
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Favorit Saya',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 14),
-
-                          Column(
-                            children: favorites.map((fav) {
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 14, vertical: 12),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF4F6FF),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(fav['icon'],
-                                        color: const Color(0xFF1E5BFF)),
-                                    const SizedBox(width: 10),
-                                    Text(
-                                      fav['title'],
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    const Icon(Icons.arrow_forward_ios,
-                                        size: 16, color: Colors.grey),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                      
 
                           const SizedBox(height: 28),
 
-                          // Tombol Logout
+                          // Logout
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
@@ -270,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  /// 🔹 Widget info dengan ikon, label & value
+  // 🔹 Widget info dengan ikon, label & value
   Widget _infoField({
     required IconData icon,
     required String label,
@@ -285,10 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-              ),
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
           ),
           Text(
