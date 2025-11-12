@@ -64,7 +64,7 @@ var skincareList = [
         'Sunscreen bertekstur serum dengan kombinasi Hyaluronic Acid dan Centella Asiatica yang memberikan perlindungan maksimal terhadap sinar UVA/UVB tanpa whitecast. Cocok untuk semua jenis kulit.',
     releaseYear: '2021',
     category: 'Sunscreen',
-    imageAsset: 'images/skin1004_sunscreen.jpg',
+    imageAsset: 'images/anua_serum.jpg',
     imageUrls: [
       'https://cdn.skin1004korea.com/product/hyalucica_sunserum_1.jpg',
       'https://cdn.skin1004korea.com/product/hyalucica_sunserum_2.jpg',
@@ -82,7 +82,7 @@ var skincareList = [
         'Essence legendaris COSRX yang mengandung 96% filtrat lendir siput untuk memperbaiki tekstur kulit, meningkatkan hidrasi, dan mempercepat regenerasi kulit. Cocok untuk kulit kering maupun sensitif.',
     releaseYear: '2016',
     category: 'Essence',
-    imageAsset: 'images/cosrx_snail_essence.jpg',
+    imageAsset: 'images/apa_ada.jpg',
     imageUrls: [
       'https://cdn.cosrx.com/product/snail_essence_1.jpg',
       'https://cdn.cosrx.com/product/snail_essence_2.jpg',

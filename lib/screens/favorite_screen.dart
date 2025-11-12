@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_buat_uts/data/favorite_provider.dart';
 
+const Color KGreen = Color(0xFF71A857);
+const Color kCoral = Color(0xFFFF8A8A); // 10%
+
+
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
 
@@ -17,7 +21,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorit Saya'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: KGreen,
         centerTitle: true,
       ),
       body: favorites.isEmpty
@@ -67,7 +71,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       style: const TextStyle(color: Colors.grey),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.favorite, color: Colors.lightBlue),
+                      icon: const Icon(Icons.favorite, color: kCoral),
                       onPressed: () {
                         context.read<FavoriteProvider>().toggleFavorite(item);
                         ScaffoldMessenger.of(context).showSnackBar(

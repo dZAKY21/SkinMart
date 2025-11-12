@@ -10,6 +10,7 @@ const Color kBackground = Color(0xFFF8F8FB); // 60%
 const Color kLavender = Color(0xFFC7B8EA); // 30%
 const Color kSkyBlue = Color(0xFFA4D4FF); // Tambahan
 const Color kCoral = Color(0xFFFF8A8A); // 10%
+const Color KGreen = Color(0xFF71A857);
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             text: 'Skincare.',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: kLavender, // 🌸 Lavender highlight
+                              color: KGreen, // 🌸 Lavender highlight
                             ),
                           ),
                         ],
@@ -111,13 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               prefixIcon: const Icon(
                                 Icons.search,
-                                color: kSkyBlue,
+                                color: KGreen,
                                 size: 24,
                               ),
                               suffixIcon: Container(
                                 margin: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
-                                  color: kSkyBlue,
+                                  color: KGreen,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: const Icon(
@@ -268,7 +269,7 @@ class ItemCard extends StatelessWidget {
                     skincare.price,
                     style: const TextStyle(
                       fontSize: 14,
-                      color: kSkyBlue,
+                      color: KGreen,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

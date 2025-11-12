@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+  const Color KGreen = Color(0xFF71A857);
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -14,6 +16,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String fullName = 'M. Salmans';
   String phoneNumber = '0899999999';
   String email = 'muham09@gmail.com';
+
+
 
 
 
@@ -97,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF1E5BFF), Color(0xFF71A1FF)],
+                colors: [ KGreen, Color.fromARGB(255, 255, 255, 255)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -164,11 +168,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             child: CircleAvatar(
                               radius: 48,
-                              backgroundColor: const Color(0xFF1E5BFF).withOpacity(0.2),
+                              backgroundColor: KGreen.withOpacity(0.2),
                               child: const Icon(
                                 Icons.account_circle,
                                 size: 90,
-                                color: Color(0xFF1E5BFF),
+                                color: KGreen,
                               ),
                             ),
                           ),
@@ -190,16 +194,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: double.infinity,
                             child: OutlinedButton.icon(
                               onPressed: _editProfile,
-                              icon: const Icon(Icons.edit, color: Color(0xFF1E5BFF)),
+                              icon: const Icon(Icons.edit, color: KGreen),
                               label: const Text(
                                 'Edit Profil',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF1E5BFF),
+                                  color: KGreen,
                                 ),
                               ),
                               style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: Color(0xFF1E5BFF)),
+                                side: const BorderSide(color: KGreen),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -251,7 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1E5BFF),
+                                backgroundColor: KGreen,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -282,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Icon(icon, color: const Color(0xFF1E5BFF), size: 20),
+          Icon(icon, color: KGreen, size: 20),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

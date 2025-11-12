@@ -58,7 +58,7 @@ class MainApp extends StatelessWidget {
 
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
-          selectedItemColor: Color(0xFFFF8A8A), // Coral accent
+          selectedItemColor: Color.fromARGB(255, 68, 133, 62), // Coral accent
           unselectedItemColor: Color(0xFFA4D4FF), // Sky blue
           showUnselectedLabels: true,
           type: BottomNavigationBarType.fixed,
@@ -118,7 +118,7 @@ class _MainScreenState extends State<MainScreen> {
               _currentIndex = index;
             });
           },
-          selectedItemColor: const Color(0xFFFF8A8A), // Coral active
+          selectedItemColor: Color.fromARGB(255, 68, 133, 62), // Coral active
           unselectedItemColor: Colors.black12,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
