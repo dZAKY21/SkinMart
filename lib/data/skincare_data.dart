@@ -100,7 +100,7 @@ var skincareList = [
         'Pembersih wajah dengan pH rendah yang membantu menjaga keseimbangan kulit dan membersihkan minyak berlebih tanpa membuat kulit kering. Mengandung tea tree oil dan BHA alami dari willow bark.',
     releaseYear: '2015',
     category: 'Cleanser',
-    imageAsset: 'images/cosrx_cleanser.jpg',
+    imageAsset: 'images/zaki_jelek.png',
     imageUrls: [
       'https://cdn.cosrx.com/product/goodmorning_cleanser_1.jpg',
       'https://cdn.cosrx.com/product/goodmorning_cleanser_2.jpg',
@@ -118,7 +118,7 @@ var skincareList = [
         'Cleansing oil dengan kandungan Heartleaf yang membersihkan makeup dan kotoran tanpa menyumbat pori. Teksturnya ringan, mudah dibilas, dan cocok untuk kulit sensitif.',
     releaseYear: '2023',
     category: 'Cleansing Oil',
-    imageAsset: 'images/anua_cleansing_oil.jpg',
+    imageAsset: 'images/gg.png',
     imageUrls: [
       'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_1.jpg',
       'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_2.jpg',
@@ -136,7 +136,7 @@ var skincareList = [
         'Ampoule dengan kandungan Niacinamide, Tranexamic Acid, dan Hyaluronic Acid yang mencerahkan kulit kusam serta menjaga hidrasi kulit sepanjang hari.',
     releaseYear: '2020',
     category: 'Brightening Ampoule',
-    imageAsset: 'images/skin1004_brightening.jpg',
+    imageAsset: 'images/bb.png',
     imageUrls: [
       'https://cdn.skin1004korea.com/product/tone_brightening_1.jpg',
       'https://cdn.skin1004korea.com/product/tone_brightening_2.jpg',
