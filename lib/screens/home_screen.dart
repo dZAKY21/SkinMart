@@ -10,13 +10,13 @@ import 'package:test_buat_uts/screens/cart_screen.dart';
 import 'package:test_buat_uts/screens/search_screen.dart';
 import 'package:test_buat_uts/screens/detail_screen.dart';
 
-// 🎨 WARNA
+//  Konstanta warna tema aplikasi
 const Color kBackground = Color(0xFFF8F8FB);
 const Color kLavender = Color(0xFFC7B8EA);
 const Color kSkyBlue = Color(0xFFA4D4FF);
 const Color kGreen = Color(0xFF6B966F);
 
-// 🖼️ BANNER IMAGES
+//  Daftar gambar banner untuk slider home
 final List<String> bannerImages = ['images/anua_banner.png', 'images/g2g.jpeg'];
 
 class HomeScreen extends StatefulWidget {
@@ -27,18 +27,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Controller untuk search (kalau nanti mau dipakai) dan banner slider
   final TextEditingController _searchController = TextEditingController();
   final PageController _bannerController = PageController();
 
+  // Menyimpan index banner aktif & timer auto slide
   int _currentBanner = 0;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _startAutoSlide();
+    _startAutoSlide(); // Mulai auto slide banner tiap 3 detik
   }
 
+  // Mengatur perpindahan otomatis banner promo
   void _startAutoSlide() {
     _timer = Timer.periodic(const Duration(seconds: 3), (_) {
       if (!_bannerController.hasClients) return;
@@ -53,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    // Bersihkan resource ketika HomeScreen ditutup
     _timer?.cancel();
     _bannerController.dispose();
     _searchController.dispose();
@@ -61,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Tampilan utama Home: header, banner, dan grid produk
     return Scaffold(
       backgroundColor: kBackground,
       body: SafeArea(
@@ -72,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(20),
                 child: Row(
                   children: [
+                    // Avatar profil sederhana
                     const CircleAvatar(
                       radius: 22,
                       backgroundColor: kGreen,
@@ -79,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(width: 12),
 
+                    // Field search dummy: ketika di-tap pindah ke SearchScreen
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
@@ -113,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     const SizedBox(width: 12),
 
-                    // ================= CART ICON + BADGE =================
+                    // Ikon keranjang dengan badge jumlah item dari CartProvider
                     Consumer<CartProvider>(
                       builder: (context, cart, _) {
                         final count = cart.items.length;
@@ -134,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: kGreen,
                                 ),
                                 onPressed: () {
+                                  // Navigasi ke halaman keranjang
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -144,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
 
+                            // Badge merah di pojok kanan atas jika ada item
                             if (count > 0)
                               Positioned(
                                 top: -4,
@@ -183,6 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverToBoxAdapter(
               child: Column(
                 children: [
+                  // Slider banner promo skincare
                   SizedBox(
                     height: 150,
                     child: PageView.builder(
@@ -222,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
                 child: Text(
-                  'New Arrivals',
+                  'New Arrivals', // Judul section produk baru
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -232,10 +242,12 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               sliver: SliverGrid(
+                // Membuat kartu produk dari daftar skincareList
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final skincare = skincareList[index];
 
                   return GestureDetector(
+                    // Klik kartu produk → buka DetailScreen dengan data skincare
                     onTap: () {
                       Navigator.push(
                         context,
@@ -263,6 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 // ================= ITEM CARD =================
+// Kartu tampilan satu produk di grid Home
 class ItemCard extends StatelessWidget {
   final Skincare skincare;
 
@@ -288,6 +301,7 @@ class ItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Bagian gambar produk + tombol favorite
           Expanded(
             flex: 3,
             child: Stack(
@@ -302,6 +316,7 @@ class ItemCard extends StatelessWidget {
                     builder: (context, favProvider, _) {
                       final isFav = favProvider.isFavorite(skincare);
                       return GestureDetector(
+                        // Klik icon hati → tambah / hapus dari daftar favorit
                         onTap: () {
                           favProvider.toggleFavorite(skincare);
                         },
@@ -324,6 +339,7 @@ class ItemCard extends StatelessWidget {
               ],
             ),
           ),
+          // Bagian nama dan harga produk
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 10, 8, 12),
             child: Column(

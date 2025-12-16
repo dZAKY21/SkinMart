@@ -7,6 +7,7 @@ import 'package:test_buat_uts/screens/cart_screen.dart';
 import 'package:test_buat_uts/screens/home_screen.dart';
 
 class DetailScreen extends StatefulWidget {
+  // Data produk skincare yang akan ditampilkan di detail
   final Skincare skincare;
 
   const DetailScreen({super.key, required this.skincare});
@@ -16,8 +17,10 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  // Menyimpan jumlah (qty) yang akan ditambahkan ke keranjang
   int qty = 1;
 
+  // Tombol plus dan minus untuk mengubah qty
   void _inc() => setState(() => qty++);
   void _dec() {
     if (qty > 1) setState(() => qty--);
@@ -27,10 +30,12 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
 
+    // Halaman detail produk lengkap dengan bottom bar dan konten
     return Scaffold(
       backgroundColor: Colors.white,
 
       // ================= BOTTOM FIXED BAR =================
+      // Bar bawah: kontrol qty dan tombol "Add To Cart"
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(24, 16, 24, 20),
         decoration: BoxDecoration(
@@ -47,7 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
           top: false,
           child: Row(
             children: [
-              // Qty Control
+              // Kontrol jumlah produk (– qty +)
               Container(
                 decoration: BoxDecoration(
                   color: const Color(0xFFE8F4E8),
@@ -75,17 +80,19 @@ class _DetailScreenState extends State<DetailScreen> {
 
               const SizedBox(width: 12),
 
-              // Add To Cart
+              // Tombol untuk menambahkan produk ke keranjang
               Expanded(
                 child: SizedBox(
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
+                      // Memanggil CartProvider untuk menambah produk ke keranjang
                       context.read<CartProvider>().addToCart(
                         widget.skincare,
                         qty: qty,
                       );
 
+                      // Menampilkan notifikasi SnackBar setelah berhasil ditambahkan
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Added $qty item(s) to cart'),
@@ -123,7 +130,7 @@ class _DetailScreenState extends State<DetailScreen> {
       // ================= BODY =================
       body: Stack(
         children: [
-          // Background Gradient
+          // Background gradasi hijau lembut di bagian atas
           Container(
             height: h * 0.55,
             decoration: const BoxDecoration(
@@ -137,13 +144,14 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
 
           // ================= HEADER ICONS =================
+          // Bar atas: tombol back dan ikon keranjang dengan badge
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Back Button
+                  // Tombol kembali ke halaman sebelumnya
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.9),
@@ -158,11 +166,10 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
 
-                  // Cart Icon + Badge (FIXED)
+                  // Ikon keranjang yang menampilkan jumlah item (badge)
                   Consumer<CartProvider>(
                     builder: (context, cart, _) {
                       final itemCount = cart.items.length;
-                      // 👉 kalau mau total qty: cart.selectedCount()
 
                       return Stack(
                         clipBehavior: Clip.none,
@@ -178,6 +185,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 color: kGreen,
                               ),
                               onPressed: () {
+                                // Navigasi ke halaman CartScreen
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -186,9 +194,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                 );
                               },
                             ),
-
                           ),
 
+                          // Badge merah jika ada item di keranjang
                           if (itemCount > 0)
                             Positioned(
                               right: -2,
@@ -224,7 +232,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ),
 
-          // Product Image
+          // Gambar produk dengan animasi Hero dari halaman sebelumnya
           Positioned(
             top: h * 0.1,
             left: 0,
@@ -239,7 +247,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ),
 
-          // Detail Card
+          // Kartu detail di bagian bawah (nama, favorit, deskripsi)
           Positioned(
             top: h * 0.38,
             left: 0,
@@ -265,7 +273,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Name + Favorite
+                    // Nama produk dan ikon favorite
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -288,6 +296,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 color: isFav ? Colors.red : Colors.grey[400],
                                 size: 28,
                               ),
+                              // Klik icon hati → tambah / hapus dari daftar favorit
                               onPressed: () =>
                                   fav.toggleFavorite(widget.skincare),
                             );
@@ -298,7 +307,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
                     const SizedBox(height: 12),
 
-                    // Description
+                    // Deskripsi produk
                     Text(
                       widget.skincare.description,
                       style: TextStyle(
@@ -318,6 +327,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  // Tombol kecil untuk kontrol qty (plus/minus)
   Widget _qtyBtn(IconData icon, VoidCallback onTap, {bool green = false}) {
     return InkWell(
       onTap: onTap,

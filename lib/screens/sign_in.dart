@@ -14,19 +14,22 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  // Controller input username & password
   final _usernameCtl = TextEditingController();
   final _passwordCtl = TextEditingController();
 
+  // Status checkbox "ingat saya" dan indikator loading awal
   bool _remember = false;
   bool _loading = true;
 
   @override
   void initState() {
     super.initState();
-    _checkRemember();
+    _checkRemember(); // Cek apakah user sudah login sebelumnya
   }
 
   // ================= REMEMBER ME =================
+  // Jika remember == true, langsung arahkan ke MainScreen
   Future<void> _checkRemember() async {
     final prefs = await SharedPreferences.getInstance();
     final remembered = prefs.getBool('remember') ?? false;
@@ -43,10 +46,12 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   // ================= LOGIN LOGIC =================
+  // Logika ketika tombol "Masuk" ditekan
   Future<void> _onSignIn() async {
     final inputUsername = _usernameCtl.text.trim();
     final inputPassword = _passwordCtl.text;
 
+    // Validasi form kosong
     if (inputUsername.isEmpty || inputPassword.isEmpty) {
       _showSnack('Username dan password wajib diisi');
       return;
@@ -57,12 +62,13 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       final prefs = await SharedPreferences.getInstance();
 
+      // Ambil kredensial terenkripsi dan key/iv dari storage
       final encryptedUsername = prefs.getString('encryptedUsername');
       final encryptedPassword = prefs.getString('encryptedPassword');
       final keyBase64 = prefs.getString('enc_key');
       final ivBase64 = prefs.getString('enc_iv');
 
-      // BELUM PERNAH SIGN UP
+      // Jika belum ada data → user belum pernah sign up
       if (encryptedUsername == null ||
           encryptedPassword == null ||
           keyBase64 == null ||
@@ -71,7 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
         return;
       }
 
-      // DECRYPT
+      // DEKRIPSI username & password yang tersimpan
       final key = encrypt.Key.fromBase64(keyBase64);
       final iv = encrypt.IV.fromBase64(ivBase64);
       final encrypter = encrypt.Encrypter(
@@ -81,7 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
       final savedUsername = encrypter.decrypt64(encryptedUsername, iv: iv);
       final savedPassword = encrypter.decrypt64(encryptedPassword, iv: iv);
 
-      // VALIDASI
+      // Cek kecocokan input dengan data tersimpan
       if (inputUsername == savedUsername && inputPassword == savedPassword) {
         await prefs.setBool('remember', _remember);
 
@@ -100,6 +106,7 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  // Menampilkan pesan singkat di bawah layar
   void _showSnack(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
@@ -107,10 +114,12 @@ class _SignInScreenState extends State<SignInScreen> {
   // ================= UI =================
   @override
   Widget build(BuildContext context) {
+    // Tampilkan loading saat cek remember / proses login
     if (_loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    // Tampilan utama halaman login
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -124,7 +133,7 @@ class _SignInScreenState extends State<SignInScreen> {
           children: [
             const SizedBox(height: 80),
 
-            // LOGO
+            // Logo aplikasi
             Image.asset(
               'images/logo-skinmart.png',
               width: 260,
@@ -133,7 +142,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
             const SizedBox(height: 40),
 
-            // CARD
+            // Card putih berisi form login
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -158,6 +167,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       const SizedBox(height: 30),
 
+                      // Input username
                       _inputLabel("Masukkan Username"),
                       _inputField(
                         controller: _usernameCtl,
@@ -167,6 +177,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                       const SizedBox(height: 18),
 
+                      // Input password
                       _inputLabel("Masukkan Password"),
                       _inputField(
                         controller: _passwordCtl,
@@ -177,6 +188,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                       const SizedBox(height: 16),
 
+                      // Checkbox "ingat saya" dan teks lupa password
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Row(
@@ -202,7 +214,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                       const SizedBox(height: 20),
 
-                      // BUTTON LOGIN
+                      // Tombol login utama
                       Container(
                         width: double.infinity,
                         margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -227,6 +239,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                       const SizedBox(height: 10),
 
+                      // Link ke halaman daftar
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -256,6 +269,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   // ================= UI HELPER =================
+  // Label kecil di atas field input
   Widget _inputLabel(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -269,6 +283,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  // Widget TextField reusable untuk username & password
   Widget _inputField({
     required TextEditingController controller,
     required String hint,

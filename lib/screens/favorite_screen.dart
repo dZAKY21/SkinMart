@@ -5,7 +5,7 @@ import 'package:test_buat_uts/providers/cart_providers.dart';
 import 'package:test_buat_uts/screens/cart_screen.dart';
 import 'package:test_buat_uts/screens/home_screen.dart';
 
-// 🎨 WARNA
+// 🎨 Warna tema utama untuk halaman favorite
 const Color kGreen = Color(0xFF6B966F);
 const Color kBackground = Color(0xFFF8F8FB);
 
@@ -14,10 +14,11 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Mengambil daftar produk yang sudah difavoritkan dari FavoriteProvider
     final favorites = context.watch<FavoriteProvider>().favorites;
 
     return WillPopScope(
-      //  BACK ANDROID → HOME
+      // Tekan tombol back Android → kembali ke HomeScreen
       onWillPop: () async {
         Navigator.pushReplacement(
           context,
@@ -31,6 +32,7 @@ class FavoriteScreen extends StatelessWidget {
           child: Column(
             children: [
               // ================= HEADER =================
+              // App bar custom: tombol back, judul, dan ikon cart dengan badge
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -48,13 +50,14 @@ class FavoriteScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    //  BACK → HOME
+                    // Tombol kembali ke HomeScreen
                     IconButton(
                       icon: const Icon(Icons.arrow_back_ios_new, color: kGreen),
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (_) => const HomeScreen()),
+                          MaterialPageRoute(
+                              builder: (_) => const HomeScreen()),
                         );
                       },
                     ),
@@ -71,7 +74,7 @@ class FavoriteScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // ================= CART ICON + BADGE =================
+                    // Ikon keranjang dengan badge jumlah item dari CartProvider
                     Consumer<CartProvider>(
                       builder: (context, cart, _) {
                         final count = cart.items.length;
@@ -128,6 +131,7 @@ class FavoriteScreen extends StatelessWidget {
               ),
 
               // ================= CONTENT =================
+              // Jika belum ada favorite tampilkan pesan, kalau ada tampilkan grid
               Expanded(
                 child: favorites.isEmpty
                     ? const Center(
@@ -141,11 +145,11 @@ class FavoriteScreen extends StatelessWidget {
                         itemCount: favorites.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 14,
-                              crossAxisSpacing: 14,
-                              childAspectRatio: 0.72,
-                            ),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 14,
+                          crossAxisSpacing: 14,
+                          childAspectRatio: 0.72,
+                        ),
                         itemBuilder: (context, index) {
                           final item = favorites[index];
                           return _FavoriteCard(item: item);
@@ -161,6 +165,7 @@ class FavoriteScreen extends StatelessWidget {
 }
 
 // ================= CARD FAVORITE =================
+// Kartu tampilan satu produk favorit di grid FavoriteScreen
 class _FavoriteCard extends StatelessWidget {
   final dynamic item;
 
@@ -178,7 +183,7 @@ class _FavoriteCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          //  IMAGE
+          // Gambar produk dan ikon hati untuk menghapus dari favorit
           Expanded(
             child: Stack(
               children: [
@@ -193,7 +198,7 @@ class _FavoriteCard extends StatelessWidget {
                   ),
                 ),
 
-                // FAVORITE ICON
+                // Icon favorite: klik untuk menghapus item dari daftar favorit
                 Positioned(
                   top: 8,
                   right: 8,
@@ -219,7 +224,7 @@ class _FavoriteCard extends StatelessWidget {
             ),
           ),
 
-          // 📄 INFO
+          // Info nama dan harga produk favorit
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 10, 8, 12),
             child: Column(

@@ -10,12 +10,14 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<Skincare> searchResults = [];
+  List<Skincare> searchResults = []; // searchResults dipakai untuk menampung hasil pencarian yang akan ditampilkan di UI.
 
-  void searchSkincare(String query) {
+
+// Filters skincareList by query and updates search results 
+  void searchSkincare(String query) {     // Mengupdate hasil pencarian skincare sesuai kata kunci yang diketik user.
     final results = skincareList.where((item) {
       return item.name.toLowerCase().contains(query.toLowerCase()) ||
-          item.brand.toLowerCase().contains(query.toLowerCase()) ||
+          item.brand.toLowerCase().contains(query.toLowerCase()) ||    //produk masuk hasil pencarian kalau nama, brand, atau kategori mengandung teks yang diketik user 
           item.category.toLowerCase().contains(query.toLowerCase());
     }).toList();
 
@@ -25,12 +27,12 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        title: TextField(
+        title: TextField(     //Search input field
           onChanged: searchSkincare,
           autofocus: true,
           decoration: const InputDecoration(
@@ -39,7 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ),
-      body: searchResults.isEmpty
+      body: searchResults.isEmpty       // Menampilkan pesan kosong atau daftar hasil pencarian skincare
           ? const Center(child: Text("Belum ada hasil pencarian"))
           : ListView.builder(
               itemCount: searchResults.length,

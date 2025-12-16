@@ -12,8 +12,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  // Warna utama hijau untuk cart
   static const Color greenMain = Color(0xFF71A857);
 
+  // Mengatur perilaku tombol back: kembali ke MainScreen dan hapus route sebelumnya
   Future<bool> _onWillPop() async {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => const MainScreen()),
@@ -24,6 +26,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Halaman keranjang dibungkus WillPopScope untuk intercept tombol back
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -47,15 +50,19 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
         backgroundColor: const Color.fromRGBO(245, 245, 247, 1),
+        // Menggunakan CartProvider untuk membaca dan menampilkan isi keranjang
         body: Consumer<CartProvider>(
           builder: (context, cart, _) {
+            // Mengelompokkan item keranjang berdasarkan nama toko
             final grouped = cart.groupedByShop();
 
             return Column(
               children: [
                 Expanded(
                   child: grouped.isEmpty
+                      // Jika keranjang kosong
                       ? const Center(child: Text('Keranjang kosong'))
+                      // Jika ada item, tampilkan list per toko
                       : ListView(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -84,7 +91,7 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                 ),
 
-                // ================= BOTTOM BAR =================
+                // Bar bawah: pilih semua, tampilkan total & jumlah item, dan tombol checkout
                 Container(
                   color: Colors.white,
                   padding: const EdgeInsets.symmetric(
@@ -93,6 +100,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   child: Row(
                     children: [
+                      // Checkbox untuk memilih / batal memilih semua item
                       Checkbox(
                         value: cart.isAllSelected(),
                         onChanged: (v) => cart.toggleSelectAll(v ?? false),
@@ -100,6 +108,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       const Text('Semua'),
                       const Spacer(),
+                      // Menampilkan total harga dan jumlah item yang dipilih
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -121,6 +130,7 @@ class _CartScreenState extends State<CartScreen> {
                         ],
                       ),
                       const SizedBox(width: 12),
+                      // Tombol checkout aktif hanya jika ada item yang dipilih
                       ElevatedButton(
                         onPressed: cart.selectedCount() > 0
                             ? () {
@@ -158,6 +168,7 @@ class _CartScreenState extends State<CartScreen> {
 }
 
 /// ================= SHOP CARD =================
+/// Kartu untuk satu toko, berisi daftar item keranjang dari toko tersebut
 class ShopCardMarketplace extends StatelessWidget {
   final String shopName;
   final List<CartItem> items;
@@ -189,6 +200,7 @@ class ShopCardMarketplace extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
+            // Bar atas: checkbox toko, nama toko, dan tombol "Ubah"
             Row(
               children: [
                 Checkbox(
@@ -206,6 +218,7 @@ class ShopCardMarketplace extends StatelessWidget {
               ],
             ),
             const Divider(height: 6),
+            // List item keranjang di toko ini
             for (var i = 0; i < items.length; i++) ...[
               _MarketCartRow(
                 item: items[i],
@@ -223,6 +236,7 @@ class ShopCardMarketplace extends StatelessWidget {
 }
 
 /// ================= CART ROW =================
+/// Satu baris item keranjang (gambar, nama, harga, dan kontrol jumlah)
 class _MarketCartRow extends StatelessWidget {
   final CartItem item;
   final VoidCallback onToggle;
@@ -247,12 +261,14 @@ class _MarketCartRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Checkbox pilih / batal pilih item
           Checkbox(
             value: item.selected,
             onChanged: (_) => onToggle(),
             activeColor: greenMain,
           ),
 
+          // Gambar produk
           Container(
             width: 96,
             height: 96,
@@ -268,6 +284,7 @@ class _MarketCartRow extends StatelessWidget {
 
           const SizedBox(width: 12),
 
+          // Nama produk dan harga
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,10 +307,11 @@ class _MarketCartRow extends StatelessWidget {
             ),
           ),
 
-          // ===== QTY HORIZONTAL =====
+          // Kontrol jumlah produk: kurangi, tampilkan qty, dan tambah quantity
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Tombol minus: kurangi qty atau konfirmasi hapus jika tinggal 1
               InkWell(
                 onTap: () async {
                   if (item.qty > 1) {
@@ -326,11 +344,13 @@ class _MarketCartRow extends StatelessWidget {
                 child: _qtyButton(icon: Icons.remove, filled: false),
               ),
               const SizedBox(width: 10),
+              // Menampilkan jumlah (qty) saat ini
               Text(
                 item.qty.toString(),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 10),
+              // Tombol plus: tambah qty
               InkWell(
                 onTap: () => onQtyChanged(item.qty + 1),
                 child: _qtyButton(icon: Icons.add, filled: true),
@@ -342,6 +362,7 @@ class _MarketCartRow extends StatelessWidget {
     );
   }
 
+  // Widget tombol kecil untuk + dan - quantity
   Widget _qtyButton({required IconData icon, required bool filled}) {
     return Container(
       width: 36,

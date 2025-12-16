@@ -12,24 +12,28 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // Controller untuk input form
   final _nameCtl = TextEditingController();
   final _usernameCtl = TextEditingController();
   final _passwordCtl = TextEditingController();
   final _confirmCtl = TextEditingController();
 
+  // Menandai apakah proses simpan / daftar sedang berjalan
   bool _saving = false;
 
-  // Fungsi util: generate encrypter, key, iv
+  // Fungsi util: membuat objek Encrypter AES-CBC dari key
   encrypt.Encrypter _makeEncrypter(encrypt.Key key) {
     return encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
   }
 
+  // Proses ketika tombol "Daftar" ditekan
   Future<void> _signUp() async {
     final name = _nameCtl.text.trim();
     final username = _usernameCtl.text.trim();
     final password = _passwordCtl.text;
     final confirm = _confirmCtl.text;
 
+    // Validasi: semua field wajib diisi
     if (name.isEmpty ||
         username.isEmpty ||
         password.isEmpty ||
@@ -38,6 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
+    // Validasi: password dan konfirmasi harus sama
     if (password != confirm) {
       _showSnack('Password dan konfirmasi tidak sama');
       return;
@@ -46,29 +51,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() => _saving = true);
 
     try {
-      // generate random key + iv (32 bytes key untuk AES-256, 16 bytes iv)
+      // Generate key dan iv acak (AES-256 → key 32 byte, iv 16 byte)
       final key = encrypt.Key.fromSecureRandom(32);
       final iv = encrypt.IV.fromSecureRandom(16);
       final encrypter = _makeEncrypter(key);
 
-      // encrypt dan ambil .base64 sesuai petunjuk PDF
+      // Enkripsi data nama, username, password → simpan sebagai base64
       final encryptedName = encrypter.encrypt(name, iv: iv).base64;
       final encryptedUsername = encrypter.encrypt(username, iv: iv).base64;
       final encryptedPassword = encrypter.encrypt(password, iv: iv).base64;
 
       final prefs = await SharedPreferences.getInstance();
-      // simpan encrypted strings dan key/iv (key & iv base64)
+      // Simpan data terenkripsi dan key/iv (dalam bentuk base64)
       await prefs.setString('encryptedName', encryptedName);
       await prefs.setString('encryptedUsername', encryptedUsername);
       await prefs.setString('encryptedPassword', encryptedPassword);
       await prefs.setString('enc_key', key.base64);
       await prefs.setString('enc_iv', iv.base64);
 
-      // jangan otomatis set isSignedIn di sign up; biarkan user login via sign in
+      // Flag isSignedIn tetap false, user harus login dari halaman Sign In
       await prefs.setBool('isSignedIn', false);
 
       _showSnack('Pendaftaran berhasil. Silakan kembali ke halaman Masuk.');
-      // kembali ke halaman sebelumnya (Sign In)
+      // Kembali ke halaman sebelumnya (Sign In)
       if (mounted) Navigator.of(context).pop();
     } catch (e) {
       _showSnack('Gagal menyimpan data: $e');
@@ -77,6 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  // Menampilkan SnackBar pesan singkat
   void _showSnack(String msg) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
@@ -84,6 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
+    // Bersihkan controller saat widget dibuang
     _nameCtl.dispose();
     _usernameCtl.dispose();
     _passwordCtl.dispose();
@@ -94,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // tidak ada AppBar — desain full screen seperti sign in
+      // Desain fullscreen dengan background gradasi seperti Sign In
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -106,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           children: [
             const SizedBox(height: 80),
-            // header logo (ganti Image.asset bila Anda pakai logo)
+            // Logo aplikasi di bagian atas
             Column(
               children: [
                 Image.asset(
@@ -115,12 +122,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 263,
                   fit: BoxFit.contain,
                 ),
-
               ],
             ),
             const SizedBox(height: 40),
 
-            // Card putih full-height, tanpa padding (isi tetap pakai margin internal)
+            // Card putih berisi form pendaftaran
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -145,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: 24),
 
-                      // Full Name
+                      // Input Nama Lengkap
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -176,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       const SizedBox(height: 14),
 
-                      // Username
+                      // Input Username
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -207,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       const SizedBox(height: 14),
 
-                      // Password
+                      // Input Password
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -239,7 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       const SizedBox(height: 14),
 
-                      // Confirm Password
+                      // Input Konfirmasi Password
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -271,7 +277,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       const SizedBox(height: 20),
 
-                      // Tombol Daftar
+                      // Tombol Daftar: menampilkan loading saat _saving = true
                       Container(
                         width: double.infinity,
                         margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -304,7 +310,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
 
                       const SizedBox(height: 28),
-                      // link back to sign in
+
+                      // Link kembali ke halaman Masuk
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
