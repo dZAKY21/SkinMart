@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:test_buat_uts/data/favorite_dart.dart';
+import 'package:test_buat_uts/providers/cart_providers.dart';
 import 'package:test_buat_uts/screens/cart_screen.dart';
 import 'package:test_buat_uts/screens/favorite_screen.dart';
 import 'package:test_buat_uts/screens/home_screen.dart';
 import 'package:test_buat_uts/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:test_buat_uts/screens/sign_in.dart';
 
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => FavoriteProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
       child: const MainApp(),
     ),
   );
@@ -23,15 +28,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // 🌈 Warna dasar aplikasi (60% white, 30% lavender/sky, 10% coral)
         scaffoldBackgroundColor: const Color(0xFFF9F9F9),
 
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
-          iconTheme: IconThemeData(color: Color(0xFF7CB8FF)), // Sky Blue
+          iconTheme: IconThemeData(color: Color(0xFF6B966F)), 
           titleTextStyle: TextStyle(
-            color: Color(0xFF7CB8FF),
+            color: Color(0xFF6B966F),
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -58,14 +62,14 @@ class MainApp extends StatelessWidget {
 
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
-          selectedItemColor: Color(0xFFFF8A8A), // Coral accent
-          unselectedItemColor: Color(0xFFA4D4FF), // Sky blue
+          selectedItemColor: Color(0xFF6B966F), // Cora accent
+          unselectedItemColor: Color.fromARGB(255, 195, 196, 196), // Sky blue
           showUnselectedLabels: true,
           type: BottomNavigationBarType.fixed,
           elevation: 8,
         ),
       ),
-      home: const MainScreen(),
+      home: const SignInScreen(),
     );
   }
 }
@@ -92,13 +96,12 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _children[_currentIndex],
 
-      // 🌈 Bottom Navigation Bar dengan tone lembut elegan
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [
-              Color(0xFFA4D4FF), // Sky Blue
-              Color(0xFFC7B8EA), // Lavender
+              Color(0xFFA4D4FF), 
+              Color(0xFFC7B8EA), 
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -118,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
               _currentIndex = index;
             });
           },
-          selectedItemColor: const Color(0xFFFF8A8A), // Coral active
+          selectedItemColor: const Color(0xFF6B966F),
           unselectedItemColor: Colors.black12,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

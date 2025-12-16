@@ -1,28 +1,60 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:test_buat_uts/data/favorite_dart.dart';
 import 'package:test_buat_uts/data/skincare_data.dart';
 import 'package:test_buat_uts/models/skincare.dart';
+import 'package:test_buat_uts/providers/cart_providers.dart';
+import 'package:test_buat_uts/screens/cart_screen.dart';
 import 'package:test_buat_uts/screens/search_screen.dart';
+import 'package:test_buat_uts/screens/detail_screen.dart';
 
-// 🎨 Palet Warna Global
-const Color kBackground = Color(0xFFF8F8FB); // 60%
-const Color kLavender = Color(0xFFC7B8EA); // 30%
-const Color kSkyBlue = Color(0xFFA4D4FF); // Tambahan
-const Color kCoral = Color(0xFFFF8A8A); // 10%
+// 🎨 WARNA
+const Color kBackground = Color(0xFFF8F8FB);
+const Color kLavender = Color(0xFFC7B8EA);
+const Color kSkyBlue = Color(0xFFA4D4FF);
+const Color kGreen = Color(0xFF6B966F);
+
+// 🖼️ BANNER IMAGES
+final List<String> bannerImages = ['images/anua_banner.png', 'images/g2g.jpeg'];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final PageController _bannerController = PageController();
+
+  int _currentBanner = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startAutoSlide();
+  }
+
+  void _startAutoSlide() {
+    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
+      if (!_bannerController.hasClients) return;
+      _currentBanner = (_currentBanner + 1) % bannerImages.length;
+      _bannerController.animateToPage(
+        _currentBanner,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
+    _bannerController.dispose();
     _searchController.dispose();
     super.dispose();
   }
@@ -34,121 +66,186 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            // 🔹 Header Section
+            // ================= HEADER =================
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.all(20),
+                child: Row(
                   children: [
-                    // Judul
-                    const Text(
-                      'Get the',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                        height: 1.1,
-                      ),
+                    const CircleAvatar(
+                      radius: 22,
+                      backgroundColor: kGreen,
+                      child: Icon(Icons.person, color: Colors.white),
                     ),
-                    RichText(
-                      text: const TextSpan(
-                        style: TextStyle(fontSize: 36, height: 1.1),
-                        children: [
-                          TextSpan(
-                            text: 'Best ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Skincare.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: kLavender, // 🌸 Lavender highlight
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 24),
+                    const SizedBox(width: 12),
 
-                    // 🔹 Search Bar
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SearchScreen(),
-                          ),
-                        );
-                      },
-                      child: AbsorbPointer(
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SearchScreen(),
+                            ),
+                          );
+                        },
                         child: Container(
+                          height: 45,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: kLavender.withOpacity(0.6),
-                              width: 1.5,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: kLavender.withOpacity(0.15),
-                                blurRadius: 6,
-                                offset: const Offset(0, 3),
+                            border: Border.all(color: kLavender),
+                          ),
+                          child: const Row(
+                            children: [
+                              SizedBox(width: 16),
+                              Icon(Icons.search, color: kGreen),
+                              SizedBox(width: 10),
+                              Text(
+                                'Search...',
+                                style: TextStyle(color: Colors.grey),
                               ),
                             ],
-                          ),
-                          child: TextField(
-                            controller: _searchController,
-                            decoration: InputDecoration(
-                              hintText: 'Search for items....',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 15,
-                              ),
-                              prefixIcon: const Icon(
-                                Icons.search,
-                                color: kSkyBlue,
-                                size: 24,
-                              ),
-                              suffixIcon: Container(
-                                margin: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  color: kSkyBlue,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: const Icon(
-                                  Icons.shopping_bag_outlined,
-                                  color: Colors.white,
-                                  size: 22,
-                                ),
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 16,
-                              ),
-                            ),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+
+                    const SizedBox(width: 12),
+
+                    // ================= CART ICON + BADGE =================
+                    Consumer<CartProvider>(
+                      builder: (context, cart, _) {
+                        final count = cart.items.length;
+
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(color: kLavender),
+                              ),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.shopping_bag_outlined,
+                                  color: kGreen,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const CartScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+
+                            if (count > 0)
+                              Positioned(
+                                top: -4,
+                                right: -4,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 18,
+                                    minHeight: 18,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      count > 9 ? '9+' : '$count',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
 
-            // 🔹 Grid Produk
+            // ================= BANNER =================
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 150,
+                    child: PageView.builder(
+                      controller: _bannerController,
+                      itemCount: bannerImages.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(color: Colors.black12, blurRadius: 8),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              bannerImages[index],
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                ],
+              ),
+            ),
+
+            // ================= TITLE =================
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Text(
+                  'New Arrivals',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+
+            // ================= GRID PRODUK =================
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final skincare = skincareList[index];
-                  return RepaintBoundary(child: ItemCard(skincare: skincare));
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailScreen(skincare: skincare),
+                        ),
+                      );
+                    },
+                    child: ItemCard(skincare: skincare),
+                  );
                 }, childCount: skincareList.length),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -165,6 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+// ================= ITEM CARD =================
 class ItemCard extends StatelessWidget {
   final Skincare skincare;
 
@@ -190,7 +288,6 @@ class ItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 🔹 Gambar produk + favorite icon
           Expanded(
             flex: 3,
             child: Stack(
@@ -207,32 +304,16 @@ class ItemCard extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           favProvider.toggleFavorite(skincare);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                isFav
-                                    ? '${skincare.name} dihapus dari favorit'
-                                    : '${skincare.name} ditambahkan ke favorit',
-                              ),
-                              duration: const Duration(seconds: 1),
-                            ),
-                          );
                         },
                         child: Container(
                           padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: kLavender.withOpacity(0.3),
-                                blurRadius: 4,
-                              ),
-                            ],
                           ),
                           child: Icon(
                             isFav ? Icons.favorite : Icons.favorite_border,
-                            color: isFav ? kCoral : Colors.grey[400],
+                            color: isFav ? Colors.red : Colors.grey,
                             size: 20,
                           ),
                         ),
@@ -243,37 +324,37 @@ class ItemCard extends StatelessWidget {
               ],
             ),
           ),
-
-          // 🔹 Info Produk
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 10, 8, 12),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
                     skincare.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    skincare.price,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 14,
-                      color: kSkyBlue,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 6),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    skincare.price,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: kGreen,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

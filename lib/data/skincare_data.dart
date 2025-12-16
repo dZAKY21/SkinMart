@@ -10,7 +10,7 @@ var skincareList = [
         'Toner best-seller dari Anua dengan 77% ekstrak daun Heartleaf (Houttuynia Cordata) yang menenangkan kulit sensitif, mengontrol minyak, dan menjaga kelembapan kulit. Cocok untuk kulit sensitif dan acne-prone.',
     releaseYear: '2021',
     category: 'Toner',
-    imageAsset: 'images/anua_toner.jpg',
+    imageAsset: 'images/empat.png',
     imageUrls: [
       'https://anuaofficial.com/cdn/shop/files/heartleaf_77_toner_1.jpg',
       'https://anuaofficial.com/cdn/shop/files/heartleaf_77_toner_2.jpg',
@@ -28,7 +28,7 @@ var skincareList = [
         'Serum pencerah dengan 10% Niacinamide dan Tranexamic Acid yang membantu menyamarkan noda hitam dan meratakan warna kulit. Diperkaya ekstrak teh hijau untuk menenangkan dan memperkuat skin barrier.',
     releaseYear: '2022',
     category: 'Serum',
-    imageAsset: 'images/anua_Niacinamide.jpg',
+    imageAsset: 'images/tiga.png',
     imageUrls: [
       'https://anuaofficial.com/cdn/shop/files/niacinamide_serum_1.jpg',
       'https://anuaofficial.com/cdn/shop/files/niacinamide_serum_2.jpg',
@@ -46,7 +46,7 @@ var skincareList = [
         'Ampoule murni dengan 100% ekstrak Centella Asiatica dari Madagaskar. Membantu menenangkan kulit, memperbaiki lapisan pelindung kulit, dan mengurangi kemerahan akibat iritasi. Aman untuk semua jenis kulit.',
     releaseYear: '2018',
     category: 'Ampoule',
-    imageAsset: 'images/skin1004_ampoule.jpg',
+    imageAsset: 'images/tujuh.png',
     imageUrls: [
       'https://cdn.skin1004korea.com/product/centella_ampoule_1.jpg',
       'https://cdn.skin1004korea.com/product/centella_ampoule_2.jpg',
@@ -64,7 +64,7 @@ var skincareList = [
         'Sunscreen bertekstur serum dengan kombinasi Hyaluronic Acid dan Centella Asiatica yang memberikan perlindungan maksimal terhadap sinar UVA/UVB tanpa whitecast. Cocok untuk semua jenis kulit.',
     releaseYear: '2021',
     category: 'Sunscreen',
-    imageAsset: 'images/skin1004_sunscreen.jpg',
+    imageAsset: 'images/satu.png',
     imageUrls: [
       'https://cdn.skin1004korea.com/product/hyalucica_sunserum_1.jpg',
       'https://cdn.skin1004korea.com/product/hyalucica_sunserum_2.jpg',
@@ -82,7 +82,7 @@ var skincareList = [
         'Essence legendaris COSRX yang mengandung 96% filtrat lendir siput untuk memperbaiki tekstur kulit, meningkatkan hidrasi, dan mempercepat regenerasi kulit. Cocok untuk kulit kering maupun sensitif.',
     releaseYear: '2016',
     category: 'Essence',
-    imageAsset: 'images/cosrx_snail_essence.jpg',
+    imageAsset: 'images/enam.png',
     imageUrls: [
       'https://cdn.cosrx.com/product/snail_essence_1.jpg',
       'https://cdn.cosrx.com/product/snail_essence_2.jpg',
@@ -100,7 +100,7 @@ var skincareList = [
         'Pembersih wajah dengan pH rendah yang membantu menjaga keseimbangan kulit dan membersihkan minyak berlebih tanpa membuat kulit kering. Mengandung tea tree oil dan BHA alami dari willow bark.',
     releaseYear: '2015',
     category: 'Cleanser',
-    imageAsset: 'images/cosrx_cleanser.jpg',
+    imageAsset: 'images/lima.png',
     imageUrls: [
       'https://cdn.cosrx.com/product/goodmorning_cleanser_1.jpg',
       'https://cdn.cosrx.com/product/goodmorning_cleanser_2.jpg',
@@ -118,7 +118,7 @@ var skincareList = [
         'Cleansing oil dengan kandungan Heartleaf yang membersihkan makeup dan kotoran tanpa menyumbat pori. Teksturnya ringan, mudah dibilas, dan cocok untuk kulit sensitif.',
     releaseYear: '2023',
     category: 'Cleansing Oil',
-    imageAsset: 'images/anua_cleansing_oil.jpg',
+    imageAsset: 'images/dua.png',
     imageUrls: [
       'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_1.jpg',
       'https://anuaofficial.com/cdn/shop/files/heartleaf_cleansingoil_2.jpg',
@@ -136,7 +136,7 @@ var skincareList = [
         'Ampoule dengan kandungan Niacinamide, Tranexamic Acid, dan Hyaluronic Acid yang mencerahkan kulit kusam serta menjaga hidrasi kulit sepanjang hari.',
     releaseYear: '2020',
     category: 'Brightening Ampoule',
-    imageAsset: 'images/skin1004_brightening.jpg',
+    imageAsset: 'images/10.png',
     imageUrls: [
       'https://cdn.skin1004korea.com/product/tone_brightening_1.jpg',
       'https://cdn.skin1004korea.com/product/tone_brightening_2.jpg',
