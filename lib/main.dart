@@ -7,6 +7,7 @@ import 'package:test_buat_uts/screens/home_screen.dart';
 import 'package:test_buat_uts/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:test_buat_uts/screens/sign_in.dart';
+import 'package:test_buat_uts/screens/splash_screen.dart';
 
 void main() {
   runApp(
@@ -33,7 +34,7 @@ class MainApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
-          iconTheme: IconThemeData(color: Color(0xFF6B966F)), 
+          iconTheme: IconThemeData(color: Color(0xFF6B966F)),
           titleTextStyle: TextStyle(
             color: Color(0xFF6B966F),
             fontSize: 20,
@@ -69,7 +70,11 @@ class MainApp extends StatelessWidget {
           elevation: 8,
         ),
       ),
-      home: const SignInScreen(),
+      home: const SplashScreen(
+        nextScreen: SignInScreen(),
+        logoPath: 'images/logo-skinmart.png',
+        duration: Duration(seconds: 2),
+      ),
     );
   }
 }
@@ -99,10 +104,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [
-              Color(0xFFA4D4FF), 
-              Color(0xFFC7B8EA), 
-            ],
+            colors: [Color(0xFFA4D4FF), Color(0xFFC7B8EA)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
